@@ -24,8 +24,8 @@ export default () => {
   return (
     <AnimationRevealPage>
       <Hero
-        heading={<>Delicious & Affordable <HighlightedText>Meals Near You.</HighlightedText></>}
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        heading={<>Manualidades en crochet <HighlightedText>Hechas en casa</HighlightedText></>}
+        description="Gorros, almohadones y todo tipo de manualidades hechas por Silvia desde su casa."
         imageSrc={require('../images/demo/image2.jpeg')}
         imageCss={imageCss}
         imageDecoratorBlob={true}
@@ -35,7 +35,7 @@ export default () => {
       <TabGrid
         heading={
           <>
-            Nuestros <HighlightedText>productos.</HighlightedText>
+            Conocé nuestros <HighlightedText>productos</HighlightedText>
           </>
         }
       />
