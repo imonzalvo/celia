@@ -14,6 +14,9 @@ const GlobalStyles = createGlobalStyle(globalStyles, `
    .ReactModal__Overlay--before-close{
      transform: scale(0);
    }
+   .image-modal{
+    height: 100px;
+   }
 `)
 
 export default GlobalStyles

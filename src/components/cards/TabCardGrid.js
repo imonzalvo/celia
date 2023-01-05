@@ -9,12 +9,30 @@ import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
 import { ReactComponent as StarIcon } from "images/star-icon.svg";
 import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
+import { ReactComponent as CloseIcon } from "feather-icons/dist/icons/x.svg";
+import { Lightbox } from "react-modal-image";
+
 import gorro1 from '../../images/demo/gorro1.jpeg';
 import gorro2 from '../../images/demo/gorro2.jpeg';
+import ModalImage from "react-modal-image";
+import ReactModalAdapter from "../../helpers/ReactModalAdapter.js";
+
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
 const TabsControl = tw.div`flex flex-wrap bg-gray-200 px-2 py-2 rounded leading-none mt-12 xl:mt-0`;
 
+const StyledModal = styled(ReactModalAdapter)`
+  &.mainHeroModal__overlay {
+    ${tw`fixed inset-0 z-50`}
+  }
+  &.mainHeroModal__content {
+    ${tw`xl:mx-auto m-4 sm:m-16 max-w-screen-xl absolute inset-0 flex justify-center items-center rounded-lg bg-gray-200 outline-none`}
+  }
+  .content {
+    ${tw`w-full lg:p-16`}
+  }
+`;
+const CloseModalButton = tw.button`absolute top-0 right-0 mt-8 mr-8 hocus:text-primary-500`;
 const TabControl = styled.div`
   ${tw`cursor-pointer px-6 py-3 mt-2 sm:mt-0 sm:mr-2 last:mr-0 text-gray-600 font-medium rounded-sm transition duration-300 text-sm sm:text-base w-1/2 sm:w-auto text-center`}
   &:hover {
@@ -31,6 +49,8 @@ const CardImageContainer = styled.div`
   ${props => css`background-image: url("${props.imageSrc}");`}
   ${tw`h-56 xl:h-64 bg-center bg-cover relative rounded-t`}
 `;
+// ${props => css`background-image: url("${props.imageSrc}");`}
+
 const CardRatingContainer = tw.div`leading-none absolute inline-flex bg-gray-100 bottom-0 left-0 ml-4 mb-4 rounded-full px-5 py-2 items-end`;
 const CardRating = styled.div`
   ${tw`mr-1 text-sm font-bold flex items-end`}
@@ -68,6 +88,10 @@ export default ({
     Almohadones: []
   }
 }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImageTitle, setSelectedImageTitle] = useState("");
+  const toggleModal = () => setModalIsOpen(!modalIsOpen);
   /*
    * To customize the tabs, pass in data using the `tabs` prop. It should be an object which contains the name of the tab
    * as the key and value of the key will be its content (as an array of objects).
@@ -90,6 +114,15 @@ export default ({
           </TabsControl>
         </HeaderRow>
 
+        {modalIsOpen && (
+                      <Lightbox
+                        medium={selectedImage}
+                        large={selectedImage}
+                        alt={selectedImageTitle}
+                        id="3"
+                        onClose={toggleModal}
+                      />
+                    )}
         {tabsKeys.map((tabKey, index) => (
           <TabContent
             key={index}
@@ -109,10 +142,32 @@ export default ({
             initial={activeTab === tabKey ? "current" : "hidden"}
             animate={activeTab === tabKey ? "current" : "hidden"}
           >
+            {/* <StyledModal
+              className="mainHeroModal"
+              isOpen={modalIsOpen}
+              onRequestClose={toggleModal}
+              shouldCloseOnOverlayClick={true}
+            >
+              <CloseModalButton onClick={toggleModal}>
+                <CloseIcon tw="w-6 h-6" />
+              </CloseModalButton>
+              <div className="content" style={{display: "flex", height: "50%",flexDirection: "row", justifyContent: "center"}}>
+                <img src={selectedImage} style={{
+                  position: "relative",
+                  background: "black",
+                  // height: "400px"
+                }}></img>
+              </div>
+            </StyledModal> */}
+
             {tabs[tabKey].map((card, index) => (
               <CardContainer key={index}>
                 <Card className="group" href={card.url} initial="rest" whileHover="hover" animate="rest">
-                  <CardImageContainer imageSrc={card.imageSrc}>
+                  <CardImageContainer imageSrc={card.imageSrc} onClick={() => {
+                      setSelectedImage(card.imageSrc)
+                      setSelectedImageTitle(card.title)
+                      toggleModal();
+                    }}>
                   </CardImageContainer>
                   <CardText>
                     <CardTitle>{card.title}</CardTitle>
@@ -138,7 +193,7 @@ const getAllRandomCards = () => {
   console.log("cacaca", cards)
 
   // Shuffle array
-  return cards.sort(() => Math.random() - 0.5);
+  return cards;
 };
 
 const getHats = () => {
@@ -160,5 +215,5 @@ const getHats = () => {
   ];
 
   // Shuffle array
-  return cards.sort(() => Math.random() - 0.5);
+  return cards;
 };
