@@ -62,25 +62,10 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 export default ({
   heading = "Checkout the Menu",
   tabs = {
-    Starters: [
-      {
-        imageSrc:
-          gorro1,
-        title: "Gorro marron",
-        content: "Gorro tejido en crochet",
-        price: "$500",
-      },
-      {
-        imageSrc:
-          gorro2,
-        title: "Gorro",
-        content: "Gorro tejido en crochet",
-        price: "$500",
-      },
-    ],
-    Main: getRandomCards(),
-    Soup: getRandomCards(),
-    Desserts: getRandomCards()
+    Todos: getAllRandomCards(),
+    Gorros: getHats(),
+    Caminadores: [],
+    Almohadones: []
   }
 }) => {
   /*
@@ -96,13 +81,13 @@ export default ({
       <ContentWithPaddingXl>
         <HeaderRow>
           <Header>{heading}</Header>
-          {/* <TabsControl>
+          <TabsControl>
             {Object.keys(tabs).map((tabName, index) => (
               <TabControl key={index} active={activeTab === tabName} onClick={() => setActiveTab(tabName)}>
                 {tabName}
               </TabControl>
             ))}
-          </TabsControl> */}
+          </TabsControl>
         </HeaderRow>
 
         {tabsKeys.map((tabKey, index) => (
@@ -147,18 +132,31 @@ export default ({
 };
 
 /* This function is only there for demo purposes. It populates placeholder cards */
-const getRandomCards = () => {
+const getAllRandomCards = () => {
+  let cards = [];
+  cards = cards.concat(getHats());
+  console.log("cacaca", cards)
+
+  // Shuffle array
+  return cards.sort(() => Math.random() - 0.5);
+};
+
+const getHats = () => {
   const cards = [
     {
       imageSrc:
-        '../../images/demo/gorro1',
-      title: "Chicken Chilled",
-      content: "Chicken Main Course",
-      price: "$5.99",
-      rating: "5.0",
-      reviews: "87",
-      url: "#"
-    }
+        gorro1,
+      title: "Gorro marron",
+      content: "Gorro tejido en crochet",
+      price: "$500",
+    },
+    {
+      imageSrc:
+        gorro2,
+      title: "Gorro",
+      content: "Gorro tejido en crochet",
+      price: "$500",
+    },
   ];
 
   // Shuffle array
