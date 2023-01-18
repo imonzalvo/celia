@@ -9,6 +9,8 @@ import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
 import { Lightbox } from "react-modal-image";
 
+import ClipLoader from "react-spinners/ClipLoader";
+
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
 const TabsControl = tw.div`flex flex-wrap bg-gray-200 px-2 py-2 rounded leading-none mt-12 xl:mt-0`;
@@ -21,6 +23,13 @@ const TabControl = styled.div`
   ${(props) => props.active && tw`bg-primary-500! text-gray-100!`}
   }
 `;
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
+
 
 const TabContent = tw(
   motion.div
@@ -52,10 +61,10 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 export default ({
   heading = "Checkout the Menu",
   tabs = {},
-  fetchCategoryProducts,
   products,
   activeTab,
   setActiveTab,
+  isFetching,
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -75,12 +84,10 @@ export default ({
           <TabsControl>
             {Object.keys(tabs).map((name, index) => (
               <TabControl
-                key={index}
-                active={activeTab === name}
+                key={name}
+                active={activeTab.name === name}
                 onClick={() => {
-                  setActiveTab(name);
-                  console.log("tab", tabs, tabs[name].id)
-                  fetchCategoryProducts(tabs[name].id)
+                  setActiveTab({ name: name, id: tabs[name].id });
                 }}
               >
                 {name}
@@ -113,31 +120,39 @@ export default ({
           }}
           transition={{ duration: 0.4 }}
         >
-          {products.map((card, index) => (
-            <CardContainer key={index}>
-              <Card
-                className="group"
-                href={card.url}
-                initial="rest"
-                whileHover="hover"
-                animate="rest"
-              >
-                <CardImageContainer
-                  imageSrc={card.image.sizes["thumbnail"].url}
-                  onClick={() => {
-                    setSelectedImage(card.image.url);
-                    setSelectedImageTitle(card.title);
-                    toggleModal();
-                  }}
-                ></CardImageContainer>
-                <CardText>
-                  <CardTitle>{card.title}</CardTitle>
-                  <CardContent>{card.content}</CardContent>
-                  <CardPrice>{`$ ${card.price}`}</CardPrice>
-                </CardText>
-              </Card>
-            </CardContainer>
-          ))}
+          <ClipLoader
+            loading={isFetching}
+            cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+          {!isFetching &&
+            products.map((card, index) => (
+              <CardContainer key={card.id}>
+                <Card
+                  className="group"
+                  href={card.url}
+                  initial="rest"
+                  whileHover="hover"
+                  animate="rest"
+                >
+                  <CardImageContainer
+                    imageSrc={card.image.sizes["thumbnail"].url}
+                    onClick={() => {
+                      setSelectedImage(card.image.url);
+                      setSelectedImageTitle(card.title);
+                      toggleModal();
+                    }}
+                  ></CardImageContainer>
+                  <CardText>
+                    <CardTitle>{card.title}</CardTitle>
+                    <CardContent>{card.content}</CardContent>
+                    <CardPrice>{`$ ${card.price}`}</CardPrice>
+                  </CardText>
+                </Card>
+              </CardContainer>
+            ))}
         </TabContent>
       </ContentWithPaddingXl>
       <DecoratorBlob1 />
