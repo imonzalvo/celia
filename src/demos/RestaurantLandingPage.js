@@ -40,16 +40,14 @@ export default () => {
 
   const { status, data, isFetching, error } = useQuery("homeInfo", getHomeInfo);
 
-  // const {
-  //   data: category,
-  //   refetch: refetchCategory,
-  // } = useQuery({
-  //   queryKey: ["categories", activeTab],
-  //   queryFn: getCategoryById,
-  //   enabled: false,
-  // });
-
-  const { data: cat } = useQuery(['category', activeTab], getCategoryById)
+  const {
+    data: category,
+    refetch: refetchCategory,
+  } = useQuery({
+    queryKey: ["categories", activeTab],
+    queryFn: getCategoryById,
+    enabled: false,
+  });
 
 
   const HighlightedText = tw.span`bg-primary-500 text-gray-100 px-4 transform -skew-x-12 inline-block`;
@@ -97,7 +95,7 @@ export default () => {
         }
         tabs={getTabs()}
         products={allProducts}
-        fetchCategoryProducts={null}
+        fetchCategoryProducts={refetchCategory}
         activeTab={activeTab}
         setActiveTab={(tab) => setActiveTab(tab)}
       />
