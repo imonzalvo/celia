@@ -1,32 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import tw from "twin.macro";
-import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import Hero from "components/hero/TwoColumnWithVideo.js";
-import Features from "components/features/ThreeColSimple.js";
-import MainFeature from "components/features/TwoColWithButton.js";
-import MainFeature2 from "components/features/TwoColSingleFeatureWithStats2.js";
 import TabGrid from "components/cards/TabCardGrid.js";
-import Testimonial from "components/testimonials/ThreeColumnWithProfileImage.js";
-import DownloadApp from "components/cta/DownloadApp.js";
-import Footer from "components/footers/FiveColumnWithInputForm.js";
+import axios from "axios";
+import { useQuery } from "react-query";
 
-import chefIconImageSrc from "images/chef-icon.svg";
-import celebrationIconImageSrc from "images/celebration-icon.svg";
-import shopIconImageSrc from "images/shop-icon.svg";
+const getHomeInfo = async () => {
+  const response = await axios({
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    method: "get",
+    url: `${process.env.REACT_APP_API_URL}/api/companies/handle/${process.env.REACT_APP_BUSINESS_HANDLE}`,
+  });
+
+  console.log(response.data);
+  return response.data;
+};
+
+const getCategoryById = async (categoryId) => {
+  console.log("here", categoryId)
+  const response = await axios({
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    method: "get",
+    url: `${process.env.REACT_APP_API_URL}/api/categories/${categoryId}/products`,
+  });
+
+  console.log(response.data);
+  return response.data;
+};
 
 export default () => {
-  const Subheading = tw.span`tracking-wider text-sm font-medium`;
+  const [activeTab, setActiveTab] = useState("Todos");
+
+  const { status, data, isFetching, error } = useQuery("homeInfo", getHomeInfo);
+
+  // const {
+  //   data: category,
+  //   refetch: refetchCategory,
+  // } = useQuery({
+  //   queryKey: ["categories", activeTab],
+  //   queryFn: getCategoryById,
+  //   enabled: false,
+  // });
+
+  const { data: cat } = useQuery(['category', activeTab], getCategoryById)
+
+
   const HighlightedText = tw.span`bg-primary-500 text-gray-100 px-4 transform -skew-x-12 inline-block`;
-  const HighlightedTextInverse = tw.span`bg-gray-100 text-primary-500 px-4 transform -skew-x-12 inline-block`;
-  const Description = tw.span`inline-block mt-8`;
   const imageCss = tw`rounded-4xl h-128`;
+
+  const getTabs = () => {
+    let tabsKeys = {};
+    tabsKeys["Todos"] = data.products;
+
+    data.categories.forEach((category) => {
+      tabsKeys[category.name] = {
+        products: [],
+        tabName: category.name,
+        id: category.id        
+      };
+    });
+
+    return tabsKeys;
+  };
+
+  const description = data.configurations.description;
+  const landingImageUrl = data.configurations.image.url;
+  const allProducts = data.products;
   return (
     <AnimationRevealPage>
       <Hero
-        heading={<>Manualidades en crochet <HighlightedText>Hechas en casa</HighlightedText></>}
-        description="Gorros, almohadones y todo tipo de manualidades hechas por Silvia desde su casa."
-        imageSrc={require('../images/demo/image2.jpeg')}
+        heading={
+          <>
+            Manualidades en crochet{" "}
+            <HighlightedText>Hechas en casa</HighlightedText>
+          </>
+        }
+        description={description}
+        imageSrc={landingImageUrl}
         imageCss={imageCss}
         imageDecoratorBlob={true}
         primaryButtonText="Order Now"
@@ -38,7 +95,12 @@ export default () => {
             Conocé nuestros <HighlightedText>productos</HighlightedText>
           </>
         }
+        tabs={getTabs()}
+        products={allProducts}
+        fetchCategoryProducts={null}
+        activeTab={activeTab}
+        setActiveTab={(tab) => setActiveTab(tab)}
       />
     </AnimationRevealPage>
   );
-}
+};
