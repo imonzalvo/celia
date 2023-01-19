@@ -15,6 +15,7 @@ import { useQuery } from "react-query";
 import qs from "qs";
 
 const getHomeInfo = async () => {
+  console.log("lo que?", `${process.env.REACT_APP_API_URL}/api/companies/handle/${process.env.REACT_APP_BUSINESS_HANDLE}`)
   const response = await axios({
     headers: {
       "Content-Type": "application/json",
@@ -113,8 +114,10 @@ export default () => {
     // return;
   }
 
+  console.log("data", data)
   const description = data.configurations.description;
-  const landingImageUrl = data.configurations.image.url;
+  const landingImageUrl = `${process.env.REACT_APP_API_URL}${data.configurations.image.url}`;
+  console.log("image", landingImageUrl)
   return (
     <AnimationRevealPage>
       <Hero

@@ -23,6 +23,9 @@ const TabControl = styled.div`
   ${(props) => props.active && tw`bg-primary-500! text-gray-100!`}
   }
 `;
+const LoaderContainer = tw(
+  motion.div
+)`mt-6 flex justify-center sm:-mr-10 md:-mr-6 lg:-mr-12`;
 
 const TabContent = tw(
   motion.div
@@ -113,40 +116,46 @@ export default ({
           }}
           transition={{ duration: 0.4 }}
         >
-          <HashLoader
-            loading={isFetching}
-            size={350}
-            color={"#aaa"}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
           {!isFetching &&
-            products.map((card, index) => (
-              <CardContainer key={card.id}>
-                <Card
-                  className="group"
-                  href={card.url}
-                  initial="rest"
-                  whileHover="hover"
-                  animate="rest"
-                >
-                  <CardImageContainer
-                    imageSrc={card.image.sizes["thumbnail"].url}
-                    onClick={() => {
-                      setSelectedImage(card.image.url);
-                      setSelectedImageTitle(card.title);
-                      toggleModal();
-                    }}
-                  ></CardImageContainer>
-                  <CardText>
-                    <CardTitle>{card.title}</CardTitle>
-                    <CardContent>{card.content}</CardContent>
-                    <CardPrice>{`$ ${card.price}`}</CardPrice>
-                  </CardText>
-                </Card>
-              </CardContainer>
-            ))}
+            products.map((card, index) => {
+              const cardImageThumbnail = `${process.env.REACT_APP_API_URL}${card.image.sizes["thumbnail"].url}`;
+              const cardImage = `${process.env.REACT_APP_API_URL}${card.image.url}`;
+              return (
+                <CardContainer key={card.id}>
+                  <Card
+                    className="group"
+                    href={card.url}
+                    initial="rest"
+                    whileHover="hover"
+                    animate="rest"
+                  >
+                    <CardImageContainer
+                      imageSrc={cardImageThumbnail}
+                      onClick={() => {
+                        setSelectedImage(cardImage);
+                        setSelectedImageTitle(card.title);
+                        toggleModal();
+                      }}
+                    ></CardImageContainer>
+                    <CardText>
+                      <CardTitle>{card.title}</CardTitle>
+                      <CardContent>{card.content}</CardContent>
+                      <CardPrice>{`$ ${card.price}`}</CardPrice>
+                    </CardText>
+                  </Card>
+                </CardContainer>
+              );
+            })}
         </TabContent>
+        <LoaderContainer>
+            <HashLoader
+              loading={isFetching}
+              size={350}
+              color={"#aaa"}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </LoaderContainer>
       </ContentWithPaddingXl>
       <DecoratorBlob1 />
       <DecoratorBlob2 />
