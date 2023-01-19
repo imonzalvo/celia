@@ -10,7 +10,6 @@ import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7
 import { Lightbox } from "react-modal-image";
 
 import HashLoader from "react-spinners/HashLoader";
-import tailwindConfig from '../../tailwind.config';
 
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
