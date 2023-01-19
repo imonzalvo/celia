@@ -9,27 +9,21 @@ import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
 import { Lightbox } from "react-modal-image";
 
-import ClipLoader from "react-spinners/ClipLoader";
+import HashLoader from "react-spinners/HashLoader";
+import tailwindConfig from '../../tailwind.config';
 
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
 const TabsControl = tw.div`flex flex-wrap bg-gray-200 px-2 py-2 rounded leading-none mt-12 xl:mt-0`;
 
 const TabControl = styled.div`
-  ${tw`cursor-pointer px-6 py-3 mt-2 sm:mt-0 sm:mr-2 last:mr-0 text-gray-600 font-medium rounded-sm transition duration-300 text-sm sm:text-base w-1/2 sm:w-auto text-center`}
+  ${tw`cursor-pointer px-6 py-3 sm:mt-0 sm:mr-2 last:mr-0 text-gray-600 font-medium rounded-sm transition duration-300 text-sm sm:text-base  sm:w-auto text-center`}
   &:hover {
     ${tw`bg-gray-300 text-gray-700`}
   }
   ${(props) => props.active && tw`bg-primary-500! text-gray-100!`}
   }
 `;
-
-const override = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
-
 
 const TabContent = tw(
   motion.div
@@ -120,10 +114,10 @@ export default ({
           }}
           transition={{ duration: 0.4 }}
         >
-          <ClipLoader
+          <HashLoader
             loading={isFetching}
-            cssOverride={override}
-            size={150}
+            size={350}
+            color={"#aaa"}
             aria-label="Loading Spinner"
             data-testid="loader"
           />

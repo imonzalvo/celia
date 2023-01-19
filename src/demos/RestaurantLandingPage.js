@@ -56,7 +56,7 @@ export default () => {
   } = useQuery({
     queryKey: "homeInfo",
     queryFn: getHomeInfo,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   });
 
   const {
@@ -67,7 +67,7 @@ export default () => {
     queryKey: ["categories", activeTab],
     queryFn: getCategoryById,
     enabled: activeTab.id != "todos",
-    staleTime: Infinity
+    staleTime: Infinity,
   });
 
   const HighlightedText = tw.span`bg-primary-500 text-gray-100 px-4 transform -skew-x-12 inline-block`;
@@ -138,7 +138,11 @@ export default () => {
           </>
         }
         tabs={getTabs()}
-        products={activeTab.id == "todos"  || !category ? data.products : category.products}
+        products={
+          activeTab.id == "todos" || !category
+            ? data.products
+            : category.products
+        }
         activeTab={activeTab}
         setActiveTab={(tab) => setActiveTab(tab)}
         isFetching={isFetchingCategoryProducts}
