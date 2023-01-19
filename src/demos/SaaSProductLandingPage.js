@@ -27,6 +27,7 @@ export default () => {
       <Hero roundedHeaderButton={true} />
       <Features
         subheading={<Subheading>Features</Subheading>}
+        
         heading={
           <>
             We have Amazing <HighlightedText>Service.</HighlightedText>
