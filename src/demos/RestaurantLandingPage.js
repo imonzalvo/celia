@@ -116,7 +116,7 @@ export default () => {
 
   console.log("data", data)
   const description = data.configurations.description;
-  const landingImageUrl = `${process.env.REACT_APP_API_URL}${data.configurations.card.image.sizes["tablet"].url}`;
+  const landingImageUrl = `${process.env.REACT_APP_API_URL}${data.configurations.image.sizes["tablet"].url}`;
   console.log("image", landingImageUrl)
   return (
     <AnimationRevealPage>
