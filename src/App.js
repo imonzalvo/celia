@@ -82,13 +82,13 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 // import Footer from "components/footers/MiniCenteredFooter.js";
 
 /* Ready Made Pages (from demos folder) */
-// import EventLandingPage from "demos/EventLandingPage.js";
-// import HotelTravelLandingPage from "demos/HotelTravelLandingPage.js";
-// import AgencyLandingPage from "demos/AgencyLandingPage.js";
-// import SaaSProductLandingPage from "demos/SaaSProductLandingPage.js";
+import EventLandingPage from "demos/EventLandingPage.js";
+import HotelTravelLandingPage from "demos/HotelTravelLandingPage.js";
+import AgencyLandingPage from "demos/AgencyLandingPage.js";
+import SaaSProductLandingPage from "demos/SaaSProductLandingPage.js";
 import RestaurantLandingPage from "demos/RestaurantLandingPage.js";
-// import ServiceLandingPage from "demos/ServiceLandingPage.js";
-// import HostingCloudLandingPage from "demos/HostingCloudLandingPage.js";
+import ServiceLandingPage from "demos/ServiceLandingPage.js";
+import HostingCloudLandingPage from "demos/HostingCloudLandingPage.js";
 
 /* Inner Pages */
 // import LoginPage from "pages/Login.js";
@@ -126,13 +126,23 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //   );
 // }
 
-// export default EventLandingPage;
-// export default HotelTravelLandingPage;
-// export default AgencyLandingPage;
-// export default SaaSProductLandingPage;
-export default RestaurantLandingPage;
-// export default ServiceLandingPage;
-// export default HostingCloudLandingPage;
+const eventLandingPage = EventLandingPage;
+const hotelTravelLandingPage = HotelTravelLandingPage;
+const agencyLandingPage = AgencyLandingPage;
+const saaSProductLandingPage = SaaSProductLandingPage;
+const restaurantLandingPage = RestaurantLandingPage;
+const serviceLandingPage = ServiceLandingPage;
+const hostingCloudLandingPage = HostingCloudLandingPage;
+
+let app;
+if(process.env.REACT_APP_TYPE === 'simple') {
+    app = restaurantLandingPage;
+} else {
+    // Add other types
+    app = hostingCloudLandingPage;
+}
+
+export default app;
 
 // export default LoginPage;
 // export default SignupPage;
