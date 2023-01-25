@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
@@ -62,6 +63,7 @@ export default ({
   setActiveTab,
   isFetching,
 }) => {
+  const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageTitle, setSelectedImageTitle] = useState("");
@@ -71,6 +73,11 @@ export default ({
    * as the key and value of the key will be its content (as an array of objects).
    * To see what attributes are configurable of each object inside this array see the example above for "Starters".
    */
+
+  function goToVip(id) {
+    console.log("hola")
+    navigate(`/vip/${id}`);
+  }
 
   return (
     <Container>
@@ -128,6 +135,7 @@ export default ({
                     initial="rest"
                     whileHover="hover"
                     animate="rest"
+                    onClick={() => goToVip(card.id)}
                   >
                     <CardImageContainer
                       imageSrc={cardImageThumbnail}
