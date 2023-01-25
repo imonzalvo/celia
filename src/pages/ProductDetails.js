@@ -4,7 +4,7 @@ import tw from "twin.macro";
 
 import Button from "../components/productDetails/ProductDetailsButton";
 // import Image from '../../components/Image'
-import QuantityPicker from "../components/QuantityPicker";
+import QuantityPicker from "../components/productDetails/QuantityPicker";
 // import { fetchInventory } from '../../utils/inventoryProvider'
 // import { slugify } from '../../utils/helpers'
 // import CartLink from '../../components/CartLink/'
