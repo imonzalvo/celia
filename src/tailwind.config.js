@@ -9,6 +9,17 @@ module.exports = {
       height: {
         128: "512px",
       },
+      padding: {
+        ".5": ".125rem",
+      },
+      height: {
+        "120": "30rem",
+      },
+      backgroundColor: {
+        'light': '#f5f5f5',
+        'light-200': '#f0f0f0',
+        'light-300': '#e8e8e8'
+      }
     },
     screens: {
       sm: "640px",
@@ -383,6 +394,7 @@ module.exports = {
       8: "2rem",
       9: "2.25rem",
       10: "2.5rem",
+      large: "54px",
     },
     listStyleType: {
       none: "none",
