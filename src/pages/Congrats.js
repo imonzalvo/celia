@@ -30,6 +30,7 @@ export default () => {
             setIsLoading(false);
           },
           onError: (error) => {
+            // TODO:
             // callback llamado para todos los casos de error de Brick
           },
         },
