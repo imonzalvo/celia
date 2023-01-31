@@ -22,6 +22,7 @@ module.exports = {
       }
     },
     screens: {
+      small: {'max': '640px'},
       sm: "640px",
       md: "768px",
       lg: "1024px",
@@ -365,6 +366,7 @@ module.exports = {
       "11/12": "91.666667%",
       full: "100%",
       screen: "100vh",
+      fit: "fit-content"
     }),
     inset: {
       0: "0",

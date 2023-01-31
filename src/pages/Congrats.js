@@ -1,14 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import tw from "twin.macro";
+import HashLoader from "react-spinners/HashLoader";
 
 import Header from "../components/headers/light";
 import useMercadopago from "hooks/useMercadoPago";
-import axios from "axios";
+
+const Container = tw.div`flex justify-center flex-1`;
+const CongratsContainer = tw.div`w-2/5 mt-10 small:w-full sm:w-2/3 lg:w-2/5`;
 
 export default () => {
   const mercadopago = useMercadopago(
-    "TEST-517d0ba6-119b-4734-a690-a177656d4ab8",
+    process.env.REACT_APP_MERCADO_PAGO_PUBLIC_KEY,
     {
       locale: "es-UY",
     }
@@ -16,17 +19,15 @@ export default () => {
   let { paymentId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log("payment", paymentId);
-
   useEffect(() => {
     if (mercadopago) {
       const settings = {
         initialization: {
-          paymentId: paymentId, // id de pago generado por Mercado Pago
+          paymentId: paymentId,
         },
         callbacks: {
           onReady: () => {
-            // callback llamado cuando Brick está listo
+            setIsLoading(false);
           },
           onError: (error) => {
             // callback llamado para todos los casos de error de Brick
@@ -40,19 +41,28 @@ export default () => {
           console.log("MPStatus -> res", res);
         });
     }
-  }, [mercadopago]);
+  }, [mercadopago, paymentId]);
 
   return (
     <>
       <Header />
-      <div>VIP</div>
-      <div>{paymentId}</div>
-      <div>
-        <div
-          id="statusScreenBrick_container"
-          style={{ fontFamily: "sans-serif" }}
-        ></div>
-      </div>
+      <Container>
+        {isLoading && (
+          <HashLoader
+            loading={isLoading}
+            size={350}
+            color={"#aaa"}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        )}
+        <CongratsContainer style={isLoading ? { display: "none" } : {}}>
+          <div
+            id="statusScreenBrick_container"
+            style={{ fontFamily: "sans-serif" }}
+          ></div>
+        </CongratsContainer>
+      </Container>
     </>
   );
 };

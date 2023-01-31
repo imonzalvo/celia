@@ -35,8 +35,8 @@ export default () => {
     queryFn: getProductById,
   });
 
-  function goToCheckout(productId) {
-    navigate("/checkout", { state: { product: { id: productId } } });
+  function goToCheckout() {
+    navigate("/checkout", { state: { product: product } });
   }
 
   console.log("status", status, product, isFetching);
@@ -45,12 +45,7 @@ export default () => {
     return;
   }
 
-  const productw = {
-    price: product.price,
-    image: product.image.url,
-    title: product.title,
-    description: product.description,
-  };
+
   return (
     <>
       <Header />
