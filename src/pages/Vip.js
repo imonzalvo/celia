@@ -33,6 +33,7 @@ export default () => {
   } = useQuery({
     queryKey: ["products", productId],
     queryFn: getProductById,
+    refetchOnWindowFocus: false,
   });
 
   function goToCheckout() {
@@ -44,7 +45,6 @@ export default () => {
   if (isFetching) {
     return;
   }
-
 
   return (
     <>
