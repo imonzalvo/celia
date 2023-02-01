@@ -153,15 +153,17 @@ export default () => {
           isFetching={isFetchingCategoryProducts}
         />
       </AnimationRevealPage>
-      {!!whatsAppNumber && <FloatingWhatsApp
-        phoneNumber={whatsAppNumber}
-        statusMessage={"Disponible"}
-        accountName={process.env.REACT_APP_BUSINESS_TITLE}
-        chatMessage={"Buenas! En que podemos ayudarte?"}
-        placeholder={"Escriba su consulta"}
-        style={{ height: 420 }}
-        avatar="favicon.ico"
-      />}
+      {!!whatsAppNumber && (
+        <FloatingWhatsApp
+          phoneNumber={whatsAppNumber}
+          statusMessage={"Disponible"}
+          accountName={process.env.REACT_APP_BUSINESS_TITLE}
+          chatMessage={"Buenas! En que podemos ayudarte?"}
+          placeholder={"Escriba su consulta"}
+          style={{ height: 420 }}
+          avatar="favicon.ico"
+        />
+      )}
     </>
   );
 };
