@@ -4,7 +4,7 @@ import tw from "twin.macro";
 
 import Button from "../components/productDetails/ProductDetailsButton";
 import QuantityPicker from "../components/productDetails/QuantityPicker";
-
+import { isMercadoPagoOn } from "../utils";
 
 const Cont = tw.div`flex justify-center px-10`;
 const Container = tw.div`sm:py-12
@@ -20,7 +20,6 @@ const Title = tw.h1`font-sans	sm:mt-0 mt-2 text-5xl font-light leading-large`;
 const SubTitle = tw.h2`font-sans text-2xl tracking-wide sm:py-8 py-6 font-light`;
 const Description = tw.p`font-sans text-gray-600 leading-7`;
 const QuantityPickerContainer = tw.div`my-6`;
-
 
 export default ({ product, goToCheckout }) => {
   const [numberOfitems, updateNumberOfItems] = useState(1);
@@ -52,14 +51,19 @@ export default ({ product, goToCheckout }) => {
             <Description>
               {!!description ? description : loremIpsum}
             </Description>
-            <QuantityPickerContainer>
-              <QuantityPicker
-                increment={increment}
-                decrement={decrement}
-                numberOfitems={numberOfitems}
-              />
-            </QuantityPickerContainer>
-            <Button full title="Comprar" onClick={goToCheckout} />
+
+            {isMercadoPagoOn() && (
+              <>
+                <QuantityPickerContainer>
+                  <QuantityPicker
+                    increment={increment}
+                    decrement={decrement}
+                    numberOfitems={numberOfitems}
+                  />
+                </QuantityPickerContainer>
+                <Button full title="Comprar" onClick={goToCheckout} />
+              </>
+            )}
           </DetailsContainer>
         </Container>
       </Cont>

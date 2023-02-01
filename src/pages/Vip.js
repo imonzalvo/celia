@@ -1,14 +1,14 @@
 import { useState } from "react";
-import ProductDetail from "./ProductDetails";
-import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "react-query";
+import { useParams, useNavigate } from "react-router-dom";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
+
+import ProductDetail from "./ProductDetails";
 import Header from "../components/headers/light";
 
 const getProductById = async ({ queryKey }) => {
   const [_, productId] = queryKey;
-
-  console.log("here", productId);
   let response;
 
   response = await axios({
@@ -26,6 +26,7 @@ const getProductById = async ({ queryKey }) => {
 export default () => {
   const navigate = useNavigate();
   let { productId } = useParams();
+
   const {
     status: status,
     data: product,
@@ -36,11 +37,11 @@ export default () => {
     refetchOnWindowFocus: false,
   });
 
+  const whatsAppNumber = process.env.REACT_APP_WHATSAPP_NUMBER;
+
   function goToCheckout() {
     navigate("/checkout", { state: { product: product } });
   }
-
-  console.log("status", status, product, isFetching);
 
   if (isFetching) {
     return;
@@ -53,6 +54,20 @@ export default () => {
         product={product}
         goToCheckout={() => goToCheckout(productId)}
       />
+      {!!whatsAppNumber && (
+        <FloatingWhatsApp
+          phoneNumber={whatsAppNumber}
+          statusMessage={"Disponible"}
+          accountName={process.env.REACT_APP_BUSINESS_TITLE}
+          chatMessage={"Buenas! En que podemos ayudarte?"}
+          placeholder={"Escriba su consulta"}
+          style={{ height: 420 }}
+          notification={true}
+          notificationDelay={10}
+          notificationSound={true}
+          avatar="favicon.ico"
+        />
+      )}
     </>
   );
 };

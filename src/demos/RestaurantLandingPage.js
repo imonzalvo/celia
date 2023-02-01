@@ -63,7 +63,6 @@ export default () => {
   const whatsAppNumber = process.env.REACT_APP_WHATSAPP_NUMBER;
 
   const {
-    status: categoryStatus,
     data: category,
     isFetching: isFetchingCategoryProducts,
   } = useQuery({
@@ -89,36 +88,12 @@ export default () => {
     return tabsKeys;
   };
 
-  if (landingStatus === "loading") {
-    console.log("loading landingStatus");
-  }
-
-  if (landingStatus === "error") {
-    console.log("error landingStatus");
-  }
-
-  if (categoryStatus === "loading") {
-    console.log("loading categoryStatus");
-  }
-
-  if (categoryStatus === "error") {
-    console.log("error categoryStatus");
-  }
-
   if (isFetching) {
-    console.log("is fetching home");
     return;
   }
 
-  if (isFetchingCategoryProducts) {
-    console.log("is isFetchingCategoryProducts");
-    // return;
-  }
-
-  console.log("data", data);
   const description = data.configurations.description;
   const landingImageUrl = `${process.env.REACT_APP_API_URL}${data.configurations.image.sizes["tablet"].url}`;
-  console.log("image", landingImageUrl);
   return (
     <>
       <AnimationRevealPage>
