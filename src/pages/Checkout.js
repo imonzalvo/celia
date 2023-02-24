@@ -21,7 +21,6 @@ const RightContainer = tw(
 )`tablet:mt-8 justify-end justify-center tablet:w-full`;
 
 const FormTitle = tw.h1`font-bold`;
-const ShippingError = tw.span`ml-4 text-red-600`;
 
 const getCheckoutInfo = async ({ queryKey }) => {
   console.log("query key", queryKey);
