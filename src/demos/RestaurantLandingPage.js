@@ -92,12 +92,12 @@ export default () => {
   }
 
   const isLocal =
-    data && data.configurations.image.sizes["tablet"].url.includes("localhost");
+    data && data.company.configurations.image.sizes["tablet"].url.includes("localhost");
   
-    const description = data.configurations.description;
+    const description = data.company.configurations.description;
 
   const landingImageUrl = `${isLocal ? "" : process.env.REACT_APP_API_URL}${
-    data.configurations.image.sizes["tablet"].url
+    data.company.configurations.image.sizes["tablet"].url
   }`;
   return (
     <Container>
@@ -133,18 +133,6 @@ export default () => {
           isFetching={isFetchingCategoryProducts}
         />
       </AnimationRevealPage>
-      {/* {!!whatsAppNumber && (
-        <div style={{ position: "absolute" }}>
-          <FloatingWhatsApp
-            phoneNumber={whatsAppNumber}
-            statusMessage={"Disponible"}
-            accountName={process.env.REACT_APP_BUSINESS_TITLE}
-            chatMessage={"Buenas! En que podemos ayudarte?"}
-            placeholder={"Escriba su consulta"}
-            avatar="favicon.ico"
-          />
-        </div>
-      )} */}
     </Container>
   );
 };
