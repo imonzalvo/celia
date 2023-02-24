@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import { Container, ContentWithPaddingXl } from "components/misc/Layouts.js";
+import { ContentWithPaddingXl } from "components/misc/Layouts.js";
 import { SectionHeading } from "components/misc/Headings.js";
 import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
@@ -12,6 +12,8 @@ import { Lightbox } from "react-modal-image";
 
 import HashLoader from "react-spinners/HashLoader";
 
+const Container = tw.div`flex w-full justify-center items-center`
+const InnerContainer = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24 flex w-full flex-col`
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
 const TabsControl = tw.div`flex flex-wrap bg-gray-200 px-2 py-2 rounded leading-none mt-12 xl:mt-0`;
@@ -30,8 +32,8 @@ const LoaderContainer = tw(
 
 const TabContent = tw(
   motion.div
-)`mt-6 flex flex-wrap sm:-mr-10 md:-mr-6 lg:-mr-12`;
-const CardContainer = tw.div`cursor-pointer mt-10 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:pr-10 md:pr-6 lg:pr-12`;
+)`mt-6 flex justify-center flex-wrap sm:-mr-10 md:-mr-6 lg:-mr-12`;
+const CardContainer = tw.div`cursor-pointer mt-10 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 sm:pr-10 md:pr-6 lg:pr-12`;
 const Card = tw(
   motion.a
 )`bg-gray-200 rounded-b block max-w-xs mx-auto sm:max-w-none sm:mx-0`;
@@ -75,13 +77,13 @@ export default ({
    */
 
   function goToVip(id) {
-    console.log("hola")
+    console.log("hola");
     navigate(`/vip/${id}`);
   }
 
   return (
     <Container>
-      <ContentWithPaddingXl>
+      <InnerContainer>
         <HeaderRow>
           <Header>{heading}</Header>
           <TabsControl>
@@ -99,15 +101,7 @@ export default ({
           </TabsControl>
         </HeaderRow>
 
-        {modalIsOpen && (
-          <Lightbox
-            medium={selectedImage}
-            large={selectedImage}
-            alt={selectedImageTitle}
-            id="3"
-            onClose={toggleModal}
-          />
-        )}
+        
         <TabContent
           variants={{
             current: {
@@ -125,8 +119,17 @@ export default ({
         >
           {!isFetching &&
             products.map((card, index) => {
-              const cardImageThumbnail = `${process.env.REACT_APP_API_URL}${card.image.sizes["thumbnail"].url}`;
-              const cardImage = `${process.env.REACT_APP_API_URL}${card.image.url}`;
+              const isLocal =
+                card.images[0].image.sizes["thumbnail"].url.includes(
+                  "localhost"
+                );
+              const cardImageThumbnail = `${
+                isLocal ? "" : process.env.REACT_APP_API_URL
+              }${card.images[0].image.sizes["thumbnail"].url}`;
+              const cardImage = `${
+                isLocal ? "" : process.env.REACT_APP_API_URL
+              }${card.images[0].image.url}`;
+
               return (
                 <CardContainer key={card.id}>
                   <Card
@@ -156,15 +159,15 @@ export default ({
             })}
         </TabContent>
         <LoaderContainer>
-            <HashLoader
-              loading={isFetching}
-              size={350}
-              color={"#aaa"}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </LoaderContainer>
-      </ContentWithPaddingXl>
+          <HashLoader
+            loading={isFetching}
+            size={350}
+            color={"#aaa"}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </LoaderContainer>
+      </InnerContainer>
       <DecoratorBlob1 />
       <DecoratorBlob2 />
     </Container>

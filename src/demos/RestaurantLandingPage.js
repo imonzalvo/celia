@@ -10,6 +10,7 @@ import Hero from "components/hero/TwoColumnWithVideo.js";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import Footer from "components/footers/FiveColumnWithInputForm.js";
 
+const Container = tw.div`flex flex-1 w-full justify-center`;
 const HighlightedText = tw.span`bg-primary-500 text-gray-100 px-4 transform -skew-x-12 inline-block`;
 
 const getHomeInfo = async () => {
@@ -62,10 +63,7 @@ export default () => {
 
   const whatsAppNumber = process.env.REACT_APP_WHATSAPP_NUMBER;
 
-  const {
-    data: category,
-    isFetching: isFetchingCategoryProducts,
-  } = useQuery({
+  const { data: category, isFetching: isFetchingCategoryProducts } = useQuery({
     queryKey: ["categories", activeTab],
     queryFn: getCategoryById,
     enabled: activeTab.id != "todos",
@@ -74,6 +72,7 @@ export default () => {
 
   const imageCss = tw`rounded-4xl h-128`;
 
+  console.log("data", category, data);
   const getTabs = () => {
     let tabsKeys = {};
     tabsKeys["Todos"] = { id: "todos", name: "Todos" };
@@ -92,10 +91,16 @@ export default () => {
     return;
   }
 
-  const description = data.configurations.description;
-  const landingImageUrl = `${process.env.REACT_APP_API_URL}${data.configurations.image.sizes["tablet"].url}`;
+  const isLocal =
+    data && data.configurations.image.sizes["tablet"].url.includes("localhost");
+  
+    const description = data.configurations.description;
+
+  const landingImageUrl = `${isLocal ? "" : process.env.REACT_APP_API_URL}${
+    data.configurations.image.sizes["tablet"].url
+  }`;
   return (
-    <>
+    <Container>
       <AnimationRevealPage>
         <Hero
           heading={
@@ -128,17 +133,18 @@ export default () => {
           isFetching={isFetchingCategoryProducts}
         />
       </AnimationRevealPage>
-      {!!whatsAppNumber && (
-        <FloatingWhatsApp
-          phoneNumber={whatsAppNumber}
-          statusMessage={"Disponible"}
-          accountName={process.env.REACT_APP_BUSINESS_TITLE}
-          chatMessage={"Buenas! En que podemos ayudarte?"}
-          placeholder={"Escriba su consulta"}
-          style={{ height: 420 }}
-          avatar="favicon.ico"
-        />
-      )}
-    </>
+      {/* {!!whatsAppNumber && (
+        <div style={{ position: "absolute" }}>
+          <FloatingWhatsApp
+            phoneNumber={whatsAppNumber}
+            statusMessage={"Disponible"}
+            accountName={process.env.REACT_APP_BUSINESS_TITLE}
+            chatMessage={"Buenas! En que podemos ayudarte?"}
+            placeholder={"Escriba su consulta"}
+            avatar="favicon.ico"
+          />
+        </div>
+      )} */}
+    </Container>
   );
 };

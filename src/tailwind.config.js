@@ -14,6 +14,7 @@ module.exports = {
       },
       height: {
         "120": "30rem",
+        "121": "500px"
       },
       backgroundColor: {
         'light': '#f5f5f5',
@@ -22,7 +23,8 @@ module.exports = {
       }
     },
     screens: {
-      small: {'max': '640px'},
+      small: {'max': '768px'},
+      tablet: {'max': '1024px'},
       sm: "640px",
       md: "768px",
       lg: "1024px",
@@ -520,6 +522,7 @@ module.exports = {
       "11/12": "91.666667%",
       full: "100%",
       screen: "100vw",
+      fit: "fit-content"
     }),
     zIndex: {
       auto: "auto",
@@ -807,13 +810,3 @@ module.exports = {
   corePlugins: {},
   plugins: [],
 };
-
-function withOpacity(variableName) {
-  console.log("hola", colors[process.env.REACT_APP_PRIMARY_COLOR]);
-  return ({ opacityValue }) => {
-    if (opacityValue !== undefined) {
-      return `rgba(var(${variableName}), ${opacityValue})`;
-    }
-    return `rgb(var(${variableName}))`;
-  };
-}

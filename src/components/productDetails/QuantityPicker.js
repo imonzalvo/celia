@@ -28,9 +28,9 @@ export default function QuantityPicker({
   return (
     <Container>
       {!hideQuantityLabel && <Quantity>CANTIDAD</Quantity>}
-      <ButtonMinus onClick={increment}>+</ButtonMinus>
-      <NumberOfItems>{numberOfitems}</NumberOfItems>
       <ButtonPlus onClick={decrement}>-</ButtonPlus>
+      <NumberOfItems>{numberOfitems}</NumberOfItems>
+      <ButtonMinus onClick={increment}>+</ButtonMinus>
     </Container>
   );
 }

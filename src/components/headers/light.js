@@ -15,6 +15,14 @@ const Header = tw.header`
   max-w-screen-xl mx-auto
 `;
 
+// const Header = tw.header`
+//   flex justify-between flex-row
+//   max-w-screen-xl mx-auto
+//   absolute
+//   w-full
+//   pl-16
+// `;
+
 export const NavLinks = tw.div`inline-block`;
 
 /* hocus: stands for "on hover or focus"
